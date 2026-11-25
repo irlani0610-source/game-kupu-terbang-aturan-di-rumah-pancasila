@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<title>Lomba Kupu-kupu – Aku Patuh pada Aturan Rumah</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3a2a5c;--card:#fffdf7;--line:#e4d9ff;--ok:#2fbf71;--bad:#ef5b5b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#f3eaff;--card:#2b2147;--line:#4b3b78}}
+:root[data-theme="dark"]{--ink:#f3eaff;--card:#2b2147;--line:#4b3b78}
+html,body{margin:0}
+body{font-family:'Baloo 2','Comic Sans MS',system-ui,sans-serif;color:var(--ink);background:linear-gradient(#8fd8ff,#d6f5ff 60%,#c8f2b8);min-height:100vh}
+.wrap{max-width:780px;margin:0 auto;padding:10px}
+.card{background:var(--card);border-radius:22px;padding:16px;box-shadow:0 6px 0 rgba(90,60,160,.18);margin-top:10px}
+h1{margin:4px 0;font-size:clamp(24px,6vw,38px);text-align:center;color:#d6338a}
+.sub{text-align:center;margin:0 0 8px;font-weight:700}
+.fly{font-size:64px;text-align:center;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(6deg)}}
+label{display:block;font-weight:800;margin:8px 0 2px}
+input{width:100%;box-sizing:border-box;font:inherit;font-size:20px;padding:10px 14px;border:3px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink)}
+button{font:inherit;cursor:pointer}
+.btn,.go{background:linear-gradient(#ff8fc4,#ff5fa8);color:#fff;border:0;border-radius:16px;padding:12px 22px;font-size:22px;font-weight:800;box-shadow:0 5px 0 #c63c85;margin-top:12px}
+.btn:active,.go:active{transform:translateY(3px);box-shadow:0 2px 0 #c63c85}
+.hud{display:flex;justify-content:space-between;gap:6px;background:var(--card);border-radius:16px;padding:6px 14px;font-weight:800;font-size:15px;flex-wrap:wrap}
+canvas{width:100%;height:260px;display:block;border-radius:22px;margin-top:8px;box-shadow:0 6px 0 rgba(90,60,160,.18)}
+.qt{font-size:clamp(19px,4.6vw,25px);font-weight:800;margin-bottom:10px;line-height:1.3}
+.spk{background:#ffe27a;border:0;border-radius:50%;width:40px;height:40px;font-size:20px;margin-right:8px;vertical-align:middle}
+.opt{display:block;width:100%;text-align:left;font-size:clamp(18px,4.4vw,22px);font-weight:700;padding:12px 16px;margin:8px 0;border-radius:16px;border:3px solid var(--line);background:var(--card);color:var(--ink)}
+.opt:hover:not(:disabled){border-color:#ff7eb6;background:rgba(255,126,182,.12)}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}.opt.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.row{display:flex;gap:10px}.row .opt{text-align:center;font-size:24px}
+.hint{font-size:26px;letter-spacing:3px;font-weight:800;color:#d6338a;margin:6px 0}
+#fb{font-weight:800;font-size:19px;min-height:28px;margin-top:6px}
+.ov{position:fixed;inset:0;background:rgba(40,20,80,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
+.ov[hidden],[hidden]{display:none!important}
+.box{background:var(--card);border-radius:26px;padding:22px;max-width:420px;text-align:center}
+.box .big{font-size:56px}.box h2{margin:4px 0;color:#d6338a}
+#certWrap{position:fixed;inset:0;background:#6b5aa8;overflow:auto;z-index:9;padding:12px;text-align:center}
+#cert{background:#fffdf4;color:#3a2a5c;max-width:900px;margin:0 auto;padding:26px;border:10px double #e6a800;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+#cert h2{font-size:clamp(32px,7vw,56px);margin:0;color:#d6338a;letter-spacing:3px}
+#cert .nm{font-size:clamp(30px,6vw,48px);font-weight:800;border-bottom:3px dotted #e6a800;display:inline-block;padding:0 24px;margin:6px 0}
+#cert p{font-size:clamp(15px,3.4vw,21px);margin:6px 0;font-weight:700}
+.sig{display:flex;justify-content:space-around;margin-top:20px;font-weight:700}
+@media print{@page{size:A4 landscape;margin:8mm}body>*:not(#certWrap){display:none!important}#certWrap{position:static!important;background:#fff!important;padding:0!important}.noprint{display:none!important}#cert{box-shadow:none}}
+</style></head><body>
+<div class="wrap">
+ <div id="start" class="card">
+  <div class="fly">🦋</div>
+  <h1>Lomba Kupu-kupu</h1>
+  <p class="sub">Aku Patuh pada Aturan Rumah 🌸 Kelas 1 SD</p>
+  <label for="nm">Namaku</label><input id="nm" maxlength="30" placeholder="Tulis namamu" autocomplete="off">
+  <label for="kl">Kelasku</label><input id="kl" maxlength="10" placeholder="Contoh: 1A" autocomplete="off">
+  <div style="text-align:center"><button class="btn" id="go0">Mulai Lomba! 🦋</button></div>
+ </div>
+ <div id="game" hidden>
+  <div class="hud"><span id="lv"></span><span id="qn"></span><span id="sc"></span></div>
+  <canvas id="cv"></canvas>
+  <div id="card" class="card"></div>
+ </div>
+</div>
+<div id="ov" class="ov" hidden><div class="box" id="ovbox"></div></div>
+<div id="certWrap" hidden>
+ <div id="cert">
+  <div style="font-size:44px">🌸🦋🌼</div>
+  <h2>SERTIFIKAT</h2>
+  <p>Diberikan kepada</p>
+  <div class="nm" id="cNm"></div>
+  <p id="cKl"></p>
+  <p>karena telah menyelesaikan <b>Lomba Kupu-kupu di Taman Bunga</b><br>dan sampai di Bunga Terakhir pada materi<br><b>“Aku Patuh pada Aturan Rumah”</b></p>
+  <p style="font-size:clamp(22px,5vw,34px)">Skor: <b id="cSc"></b> / 100 &nbsp; ⭐ <span id="cPr"></span></p>
+  <div class="sig"><div>Batam, <span id="cDt"></span></div><div>Guru Kelas<br><br>( ............................ )</div></div>
+ </div>
+ <div class="noprint"><button class="btn" onclick="window.print()">🖨️ Cetak Sertifikat</button> <button class="btn" onclick="document.getElementById('certWrap').hidden=true">Tutup</button></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const LV=[["Level 1 – Sangat Mudah","🌱","Pilih satu jawaban yang benar!"],["Level 2 – Mudah","🌼","Benar atau Salah? Pilih ya!"],["Level 3 – Sedang","🌻","Ketik jawabanmu pada kotak!"],["Level 4 – Sulit","🌺","Pasangkan dengan jawaban yang tepat!"]];
+const PG=[["Sebelum bermain di luar rumah, kita harus meminta izin kepada ....","orang tua","teman","tetangga"],["Saat bermain bersama teman, kita harus bersikap ....","jujur","curang","marah"],["Setelah selesai bermain, mainan harus ....","dirapikan","dibuang","dibiarkan berserakan"],["Agar tidak terlambat ke sekolah, kita harus bangun pada waktu ....","pagi hari","siang hari","malam hari"],["Sebelum berangkat sekolah, kita sebaiknya ....","memakai seragam yang rapi","bermain dahulu","tidur kembali"],["Sebelum tidur, kita harus ....","menyikat gigi","bermain terus","menonton televisi"],["Ketika orang tua memberikan nasihat, kita harus ....","mendengarkan","membantah","berteriak"],["Jika ingin meminjam mainan kakak, kita harus ....","meminta izin","mengambil diam-diam","merebutnya"],["Jika adik kesulitan memakai sepatu, sebaiknya kita ....","membantu adik","mengejek adik","membiarkannya"],["Mematuhi aturan di rumah membuat keluarga hidup ....","rukun dan nyaman","bertengkar","berantakan"]];
+const BS=[["Kita boleh bermain tanpa meminta izin orang tua.",0],["Bermain harus dilakukan dengan jujur.",1],["Mainan harus dirapikan setelah selesai bermain.",1],["Kita boleh bermain terlalu lama sampai lupa waktu.",0],["Kita harus memakai seragam yang rapi ke sekolah.",1],["Sebelum tidur kita sebaiknya menyikat gigi.",1],["Berdoa sebelum tidur merupakan kebiasaan baik.",1],["Kita boleh berbicara kasar kepada orang tua.",0],["Kakak dan adik harus saling menyayangi.",1],["Kita harus mengembalikan barang yang dipinjam.",1]];
+const IS=[["Sebelum bermain di luar rumah, kita meminta izin kepada ....",["orang tua","orangtua","ortu","ayah ibu","ayah dan ibu"],"orang tua"],["Setelah selesai bermain, kita harus merapikan ....",["mainan"],"mainan"],["Sebelum berangkat sekolah, kita memakai ....",["seragam","seragam sekolah","baju seragam"],"seragam"],["Kita harus sarapan sebelum pergi ke ....",["sekolah"],"sekolah"],["Sebelum tidur, kita harus menyikat ....",["gigi"],"gigi"],["Agar dapat bangun pagi, kita tidak boleh tidur terlalu ....",["larut malam","larut","malam"],"larut malam"],["Ketika orang tua berbicara, kita harus mendengarkan dengan ....",["baik","sopan","baik dan sopan"],"baik / sopan"],["Jika ingin keluar rumah, kita harus meminta ....",["izin"],"izin"],["Saat kakak atau adik membutuhkan bantuan, kita harus saling ....",["membantu","menolong","tolong menolong","bantu membantu"],"membantu"],["Mematuhi aturan membuat hidup menjadi ....",["teratur","tertib","teratur dan tertib","tertib dan teratur"],"teratur / tertib"]];
+IS.pop();
+const MT=[["Sebelum bermain di luar rumah ....","Meminta izin kepada orang tua","Merapikan mainan","Menyikat gigi","Makan dengan sopan"],["Setelah selesai bermain ....","Merapikan mainan","Meminta izin kepada orang tua","Memakai seragam yang rapi","Menyikat gigi"],["Sebelum berangkat sekolah ....","Memakai seragam yang rapi","Merapikan mainan","Makan dengan sopan","Meminta izin kepada kakak"],["Sebelum tidur ....","Menyikat gigi","Memakai seragam yang rapi","Mengucapkan salam saat masuk rumah","Merapikan mainan"],["Ketika orang tua memberi nasihat ....","Mendengarkan dengan baik","Menyikat gigi","Merapikan mainan","Memakai seragam yang rapi"],["Saat ingin meminjam barang kakak ....","Meminta izin kepada kakak","Menyikat gigi","Makan dengan sopan","Memakai seragam yang rapi"],["Ketika adik mengalami kesulitan ....","Membantu adik","Menyikat gigi","Memakai seragam yang rapi","Mengucapkan salam saat masuk rumah"],["Setelah pulang sekolah ....","Mengucapkan salam saat masuk rumah","Menyikat gigi","Memakai seragam yang rapi","Meminta izin kepada kakak"],["Agar kamar nyaman digunakan ....","Merapikan tempat tidur dan kamar","Makan dengan sopan","Membantu adik","Memakai seragam yang rapi"],["Ketika makan bersama keluarga ....","Makan dengan sopan","Merapikan tempat tidur dan kamar","Menyikat gigi","Meminta izin kepada kakak"]];
+const IS10=[...IS,["Mematuhi aturan membuat hidup menjadi ....",["teratur","tertib","teratur dan tertib","tertib dan teratur"],"teratur / tertib"]];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().replace(/[^a-z\s]/g," ").replace(/\s+/g," ").trim();
+let qs=[],i=0,score=0,busy=false,mode="play",who={n:"",k:""};
+function build(){qs=[...PG.map(x=>({t:"pg",q:x[0],a:x[1],w:[x[2],x[3]]})),...BS.map(x=>({t:"bs",q:x[0],a:!!x[1]})),...IS10.map(x=>({t:"is",q:x[0],acc:x[1].map(norm),a:x[2]})),...MT.map(x=>({t:"mt",q:"Pasangkan: "+x[0],a:x[1],w:x.slice(2)}))]}
+/* ===== Audio ===== */
+let AC;const ac=()=>{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=="suspended")AC.resume();return AC};
+function note(f,t,d,type="triangle",v=.25,f2){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),s=a.currentTime+t;o.type=type;o.frequency.setValueAtTime(f,s);if(f2)o.frequency.exponentialRampToValueAtTime(f2,s+d);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g).connect(a.destination);o.start(s);o.stop(s+d+.05)}catch(e){}}
+const sOK=()=>[523,659,784,1047].forEach((f,k)=>note(f,k*.1,.25));
+const sBAD=()=>{note(330,0,.35,"sawtooth",.14,200);note(220,.3,.5,"sawtooth",.14,110)};
+const sLV=()=>[392,523,659,784,1047].forEach((f,k)=>note(f,k*.12,.3));
+const sWIN=()=>{[523,659,784,1047,784,1047,1319,1047,1319,1568,1319,1568,2093].forEach((f,k)=>note(f,k*.2,.32));[262,330,392,523].forEach((f,k)=>note(f,k*.6,.8,"sine",.12))};
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\.{2,}/g," titik titik "));u.lang="id-ID";u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+/* ===== Canvas ===== */
+const cv=$("cv"),g=cv.getContext("2d"),H=260,GY=232,N=40;
+let W=360,T=0,cam=0,conf=[],bounce={};
+const fx=k=>110+k*150,fh=k=>k==N?150:75+(k*37%40),ft=k=>GY-fh(k);
+const pal=[["#ff6fa5","#ffd1e3"],["#ffb02e","#ffe3a3"],["#a66bff","#dcc7ff"],["#4db8ff","#c3e8ff"],["#ff7a59","#ffd2c4"],["#3fd68f","#c1f5dc"]];
+const B={x:fx(0),y:ft(0)-14,rot:0,flap:2.5};
+function rs(){const d=devicePixelRatio||1;W=cv.clientWidth||360;cv.width=W*d;cv.height=H*d;g.setTransform(d,0,0,d,0,0)}
+addEventListener("resize",rs);
+function leaf(x,y,s){g.save();g.translate(x,y);g.rotate(s*-.8);g.beginPath();g.ellipse(s*14,0,16,6,0,0,7);g.fill();g.restore()}
+function flower(k){const x=fx(k)-cam;if(x<-90||x>W+90)return;const t=ft(k),last=k==N,bt=Math.max(0,(bounce[k]||0)-T),s=(last?1.7:1)*(1+bt*.3*Math.sin(T*22)),c=last?["#ffc400","#fff0a0"]:pal[k%6];
+g.strokeStyle="#2e9e4f";g.lineWidth=last?10:7;g.lineCap="round";g.beginPath();g.moveTo(x,GY+12);g.quadraticCurveTo(x+Math.sin(T+k)*5,(GY+t)/2,x,t);g.stroke();
+g.fillStyle="#3dbb62";leaf(x,GY-fh(k)*.35,1);leaf(x,GY-fh(k)*.55,-1);
+for(let j=0;j<8;j++){const a=j*Math.PI/4+k*.3,px=x+Math.cos(a)*19*s,py=t+Math.sin(a)*19*s,r=17*s,gr=g.createRadialGradient(px-4,py-4,2,px,py,r);gr.addColorStop(0,c[1]);gr.addColorStop(1,c[0]);g.fillStyle=gr;g.beginPath();g.arc(px,py,r,0,7);g.fill()}
+const gr=g.createRadialGradient(x-5,t-5,2,x,t,16*s);gr.addColorStop(0,"#fff6a8");gr.addColorStop(1,"#f2a900");g.fillStyle=gr;g.beginPath();g.arc(x,t,14*s,0,7);g.fill();
+if(k>0){g.fillStyle="#7a4a00";g.font=`800 ${13*s}px sans-serif`;g.textAlign="center";g.fillText(k,x,t+4.5*s)}
+if(last){g.strokeStyle="#7a4a00";g.lineWidth=4;g.beginPath();g.moveTo(x+70,GY+10);g.lineTo(x+70,GY-110);g.stroke();g.fillStyle="#ff4f8a";g.beginPath();g.moveTo(x+70,GY-110);g.lineTo(x+120,GY-95);g.lineTo(x+70,GY-80);g.fill();g.fillStyle="#fff";g.font="800 11px sans-serif";g.fillText("FINISH",x+92,GY-92)}
+if(k==0){g.fillStyle="#fff";g.font="800 14px sans-serif";g.textAlign="center";g.fillText("MULAI",x,GY+30)}}
+function bfly(){g.save();g.translate(B.x-cam,B.y);g.rotate(B.rot);const f=.3+.7*Math.abs(Math.sin(T*B.flap));
+for(const d of[-1,1]){g.save();g.scale(d*f,1);const gr=g.createLinearGradient(0,0,34,-24);gr.addColorStop(0,"#ffd54a");gr.addColorStop(1,"#ff5fa8");g.fillStyle=gr;g.strokeStyle="#7a2a8c";g.lineWidth=2;
+g.beginPath();g.ellipse(17,-13,18,21,-.5,0,7);g.fill();g.stroke();g.beginPath();g.ellipse(13,9,13,14,.4,0,7);g.fill();g.stroke();
+g.fillStyle="#fff";g.beginPath();g.arc(20,-16,4,0,7);g.arc(14,10,3,0,7);g.fill();g.restore()}
+g.fillStyle="#3b2455";g.beginPath();g.ellipse(0,0,3.8,13,0,0,7);g.fill();g.beginPath();g.arc(0,-15,5,0,7);g.fill();
+g.strokeStyle="#3b2455";g.lineWidth=1.5;g.beginPath();g.moveTo(-1,-19);g.quadraticCurveTo(-8,-30,-12,-28);g.moveTo(1,-19);g.quadraticCurveTo(8,-30,12,-28);g.stroke();
+g.fillStyle="#fff";g.beginPath();g.arc(-2,-16,1.4,0,7);g.arc(2,-16,1.4,0,7);g.fill();g.restore()}
+function hills(p,base,amp,col){g.fillStyle=col;g.beginPath();g.moveTo(0,H);for(let x=0;x<=W+10;x+=10)g.lineTo(x,base+Math.sin((x+cam*p)/(120+p*100))*amp);g.lineTo(W,H);g.fill()}
+function draw(){const sk=g.createLinearGradient(0,0,0,H);sk.addColorStop(0,"#6ec6ff");sk.addColorStop(1,"#e4f8ff");g.fillStyle=sk;g.fillRect(0,0,W,H);
+g.fillStyle="#fff7b0";g.beginPath();g.arc(W-60,50,30,0,7);g.fill();
+g.fillStyle="rgba(255,255,255,.9)";for(let k=0;k<6;k++){const x=((k*230-cam*.2+T*8)%(W+400)+W+400)%(W+400)-120,y=30+k%3*30;g.beginPath();g.arc(x,y,20,0,7);g.arc(x+24,y-8,26,0,7);g.arc(x+50,y,20,0,7);g.fill()}
+hills(.3,170,22,"#9fe0a0");hills(.55,195,20,"#6fcf7f");
+const gg=g.createLinearGradient(0,GY,0,H);gg.addColorStop(0,"#52c46a");gg.addColorStop(1,"#2f9f4f");g.fillStyle=gg;g.fillRect(0,GY+8,W,H);
+for(let k=0;k<=N;k++)flower(k);bfly();
+for(const c of conf){c.x+=c.vx;c.y+=c.vy;c.a+=.1;g.fillStyle=c.c;g.save();g.translate(c.x,c.y);g.rotate(c.a);g.beginPath();g.ellipse(0,0,6,3,0,0,7);g.fill();g.restore()}
+conf=conf.filter(c=>c.y<H+10)}
+function loop(n){T=n/1000;
+if(mode=="win"){const cx=fx(N),cy=ft(N)-70;B.x=cx+Math.sin(T*1.3)*170;B.y=cy+Math.sin(T*2.1)*55;B.rot=Math.cos(T*1.3)*.4;B.flap=13;cam+=((cx-W/2+40)-cam)*.05;
+for(let k=0;k<2;k++)conf.push({x:Math.random()*W,y:-8,vx:Math.random()*2-1,vy:1+Math.random()*2,a:0,c:pal[Math.random()*6|0][0]})}
+else cam+=((B.x-W*.35)-cam)*.06;
+draw();requestAnimationFrame(loop)}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function tw(ms,fn){return new Promise(r=>{const s=performance.now();(function f(n){const p=Math.min(1,(n-s)/ms);fn(p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2,p);p<1?requestAnimationFrame(f):r()})(s)})}
+async function flyTo(k,arc=50){const x0=B.x,y0=B.y,x1=fx(k),y1=ft(k)-14;B.flap=14;await tw(900,e=>{B.x=x0+(x1-x0)*e;B.y=y0+(y1-y0)*e-Math.sin(e*Math.PI)*arc;B.rot=Math.sin(e*Math.PI*2)*.15});B.rot=0;B.flap=2.5}
+async function fall(){const x0=B.x,y0=B.y;B.flap=0;await tw(800,e=>{B.y=y0+(GY+16-y0)*e*e;B.x=x0+e*20;B.rot=e*5.5});await sleep(500);B.rot=0;B.flap=6}
+/* ===== Game flow ===== */
+function hud(){$("lv").textContent=LV[Math.min(3,i/10|0)][0];$("qn").textContent=`Soal ${Math.min(i+1,40)}/40`;$("sc").textContent="⭐ Skor: "+fmt(score*2.5)}
+const fmt=x=>String(x).replace(".",",");
+function banner(l,cb){sLV();$("ov").hidden=false;$("ovbox").innerHTML=`<div class="big">${LV[l][1]}</div><h2>${LV[l][0]}</h2><p style="font-weight:700;font-size:19px">${LV[l][2]}</p><button class="btn" id="bgo">Ayo Terbang! 🦋</button>`;$("bgo").onclick=()=>{$("ov").hidden=true;cb()}}
+function show(){const q=qs[i];busy=false;hud();let h=`<div class="qt"><button class="spk" onclick="speak(qs[i].q)" title="Bacakan soal">🔊</button>${i%10+1}. ${q.q}</div>`;
+if(q.t=="pg"||q.t=="mt"){q.o=shuffle([q.a,...q.w]);h+=q.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${q.t=="pg"?"ABC"[k]+". ":""}${o}</button>`).join("")}
+else if(q.t=="bs")h+=`<div class="row"><button class="opt" onclick="pickBS(true)">✅ Benar</button><button class="opt" onclick="pickBS(false)">❌ Salah</button></div>`;
+else{const hint=q.acc[0].split("").map((c,k)=>c==" "?"  ":k?"_":c).join(" ");h+=`<div class="hint">${hint}</div><input id="in" autocomplete="off" placeholder="Ketik jawabanmu…"><button class="go" onclick="pickIS()">Jawab ✔</button>`}
+$("card").innerHTML=h+`<div id="fb"></div>`;const inp=$("in");if(inp){inp.onkeydown=e=>{if(e.key=="Enter")pickIS()};inp.focus({preventScroll:true})}}
+function pick(k){if(busy)return;const q=qs[i],bs=document.querySelectorAll(".opt");bs.forEach((b,j)=>{if(q.o[j]==q.a)b.classList.add("ok");else if(j==k)b.classList.add("bad")});ans(q.o[k]==q.a,q.a)}
+function pickBS(v){if(busy)return;const q=qs[i];document.querySelectorAll(".opt").forEach((b,j)=>{const val=j==0;if(val==q.a)b.classList.add("ok");else if(val==v)b.classList.add("bad")});ans(v==q.a,q.a?"Benar":"Salah")}
+function pickIS(){if(busy)return;const v=norm($("in").value);if(!v){$("fb").textContent="Ayo ketik jawabanmu dulu ✏️";return}const q=qs[i];$("in").disabled=true;ans(q.acc.includes(v),q.a)}
+async function ans(ok,right){busy=true;$("card").querySelectorAll("button.go").forEach(b=>b.disabled=true);const fb=$("fb");
+if(ok){score++;hud();fb.style.color="var(--ok)";fb.textContent="🎉 Hebat! Jawabanmu benar!";sOK();await flyTo(i+1);bounce[i+1]=T+.7;await sleep(900)}
+else{fb.style.color="var(--bad)";fb.textContent="😢 Belum tepat. Jawaban yang benar: "+right;sBAD();await flyTo(i+1,30);await fall();await flyTo(i+1,40);await sleep(500)}
+i++;if(i>=N)return finish();if(i%10==0)banner(i/10,show);else show()}
+function finish(){mode="win";sWIN();hud();const p=score*2.5,st=p>=90?"⭐⭐⭐":p>=70?"⭐⭐":"⭐";
+$("card").innerHTML=`<div style="text-align:center"><div style="font-size:48px">🏆</div><h1>Hore, ${esc(who.n)}!</h1><p class="qt">Kupu-kupumu sampai di Bunga Terakhir!</p><p class="qt" style="color:#d6338a;font-size:30px">Skor Total: ${fmt(p)} / 100</p><p class="qt">${st} Benar ${score} dari 40 soal</p><button class="btn" onclick="cert()">📜 Lihat Sertifikat</button> <button class="btn" onclick="again()">🔁 Main Lagi</button></div>`}
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function cert(){const p=score*2.5;$("cNm").textContent=who.n;$("cKl").textContent=who.k?"Kelas "+who.k:"";$("cSc").textContent=fmt(p);$("cPr").textContent=p>=90?"Luar Biasa":p>=75?"Sangat Baik":p>=60?"Baik":"Terus Semangat";$("cDt").textContent=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});$("certWrap").hidden=false}
+function again(){i=0;score=0;mode="play";conf=[];bounce={};cam=0;B.x=fx(0);B.y=ft(0)-14;B.rot=0;B.flap=2.5;$("game").hidden=true;$("start").hidden=false}
+$("go0").onclick=()=>{const n=$("nm").value.trim();if(!n){$("nm").focus();$("nm").placeholder="Namamu belum ditulis ✏️";return}who={n,k:$("kl").value.trim()};ac();build();$("start").hidden=true;$("game").hidden=false;rs();hud();banner(0,show)};
+requestAnimationFrame(loop);
+</script></body></html>
